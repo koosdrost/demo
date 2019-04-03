@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/demoJenkins.iml" filepath="$PROJECT_DIR$/demoJenkins.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demoJenkins.iml" filepath="$PROJECT_DIR$/demoJenkins.iml" />
     </modules>
   </component>
 </project>
