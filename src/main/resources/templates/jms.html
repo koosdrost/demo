@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<table>
+    <th:block th:each="mail : ${mails}">
+        <tr>
+            <td th:text="${mail.getBody()}">...</td>
+            <td th:text="${mail.getTo()}">...</td>
+        </tr>
+    </th:block>
+</table>
+
+</body>
+</html>
