@@ -38,6 +38,6 @@ public class DemoApplication {
     public static void main(String[] args) throws InterruptedException {
         ConfigurableApplicationContext context = SpringApplication.run(DemoApplication.class, args);
         FancyController controller = new FancyController();
-        controller.jmsCalls(context);
+//        controller.jmsCalls(context);
     }
 }
