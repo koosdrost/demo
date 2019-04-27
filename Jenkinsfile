@@ -36,8 +36,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 input "Je gaat deployen naar Productie, is dat OK?"
-
-
+                sh "mvn tomcat7:deploy"
             }
         }
 
