@@ -19,7 +19,7 @@ pipeline {
         }
 
         stage('Sonar') {
-
+          steps{   }
         }
 
         stage('OWASP Dependency Check') {
