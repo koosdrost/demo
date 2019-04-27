@@ -13,7 +13,7 @@ public class FancyController {
 
     @GetMapping(value = "/conspect", produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getImageWithMediaType() throws IOException {
-        InputStream in = getClass().getResourceAsStream("/static/conspect1.jpeg");
+        InputStream in = getClass().getResourceAsStream("/static/conspect0.jpeg");
         return IOUtils.toByteArray(in);
     }
 }
