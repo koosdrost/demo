@@ -5,6 +5,7 @@ pipeline {
     tools {
         maven 'maven-3.6.0'
         jdk 'JDK9'
+        sonar 'SonarQube Scanner 7.7'
     }
 
     stages {
@@ -15,10 +16,18 @@ pipeline {
             }
         }
 
-        stage('Nexus archieving') {
+        stage('Nexus archiving') {
             steps{
                nexusArtifactUploader artifacts: [[artifactId: 'demo', classifier: '', file: '/Users/Shared/Jenkins/Home/workspace/demo/target/demo-1.0.0-SNAPSHOT.war', type: 'war']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0.0-SNAPSHOT'
             }
+        }
+
+        stage('SonarQube') {
+            steps{
+               withSonarQubeEnv('My SonarQube Server') {
+                   sh "${scannerHome}/bin/sonar-scanner"
+                   }
+               }
         }
 
         stage('Owasp Dependency Check') {
