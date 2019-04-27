@@ -5,7 +5,7 @@ pipeline {
     tools {
         maven 'maven-3.6.0'
         jdk 'JDK9'
-        sonar 'sonar'
+        sonar SonarQube Scanner 2.8'
     }
 
     stages {
@@ -24,7 +24,7 @@ pipeline {
 
         stage('SonarQube') {
             steps{
-               withSonarQubeEnv('My SonarQube Server') {
+               withSonarQubeEnv('sonar') {
                    sh "${scannerHome}/bin/sonar-scanner"
                    }
                }
