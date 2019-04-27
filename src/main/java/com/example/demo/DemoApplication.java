@@ -26,7 +26,6 @@ public class DemoApplication extends SpringBootServletInitializer {
         configurer.configure(factory, connectionFactory);
         // You could still override some of Boot's default if necessary.
         return factory;
-
     }
 
     @Bean // Serialize message content to json using TextMessage
