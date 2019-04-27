@@ -22,15 +22,27 @@ pipeline {
         }
 
         stage('SonarQube') {
-         environment {
+            environment {
                 scannerHome = tool 'SonarQubeScanner'
-         }
+            }
 
-         steps{
+            steps {
                withSonarQubeEnv('sonar') {
                    sh "${scannerHome}/bin/sonar-scanner"
-                   }
                }
+            }
+        }
+
+        stage('Sanity check') {
+            steps {
+               input "Does the staging environment look ok?"
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+
+            }
         }
 
         stage('Owasp Dependency Check') {
