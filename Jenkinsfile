@@ -41,6 +41,13 @@ pipeline {
                    }
                }
 
+           stage('Deploy') {
+                    steps {
+                        input "Je gaat deployen, is dat OK?"
+                        sh "mvn tomcat7:redeploy -Dtomcat.username=admin -Dtomcat.password=password"
+                    }
+                }
+
   }
 
 }
