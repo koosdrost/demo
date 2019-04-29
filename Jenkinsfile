@@ -21,6 +21,19 @@ pipeline {
         }
      }
 
+      stage('SonarQube') {
+                 // stage-specifieke omgevingsvar
+                 environment {
+                     scannerHome = tool 'SonarQubeScanner'
+                 }
+
+                 steps {
+                    withSonarQubeEnv('sonar') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                 }
+       }
+
   }
 
 }
