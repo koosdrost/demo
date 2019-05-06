@@ -1,0 +1,57 @@
+pipeline {
+
+    // de omgeving waar de pipeline wordt uitgevoerd, global hier.
+    // kan ook via docker / label
+    agent any
+
+    // specfiek voor declar. Tools worden automatisch geinstalleerd op PATH
+    tools {
+        maven 'maven-3.6.0'
+        jdk 'JDK9'
+    }
+
+    stages {
+
+        // iedere stage vertaalt zich naar een blokje in je pipeline
+        stage('Build') {
+            // uitvoering van de stages gebeurt in de steps
+            steps {
+                // hier kan je sh cmds uitvoeren, kan zowel declar. als scripted
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('Nexus archiving') {
+            steps{
+               nexusArtifactUploader artifacts: [[artifactId: 'demo', classifier: '', file: '/Users/Shared/Jenkins/Home/workspace/demo/target/demo-1.0.0-SNAPSHOT.war', type: 'war']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0.0-SNAPSHOT'
+            }
+        }
+
+        stage('SonarQube') {
+            // stage-specifieke omgevingsvar
+            environment {
+                scannerHome = tool 'SonarQubeScanner'
+            }
+
+            steps {
+               withSonarQubeEnv('sonar') {
+                   sh "${scannerHome}/bin/sonar-scanner"
+               }
+            }
+        }
+
+        stage('Owasp Dependency Check') {
+            steps {
+                dependencyCheckAnalyzer datadir: '/Users/Shared/Jenkins/Home/workspace/dependencyDatabase/dependency-check-data', hintsFile: '', includeCsvReports: false, includeHtmlReports: false, includeJsonReports: false, includeVulnReports: false, isAutoupdateDisabled: false, outdir: '', scanpath: '', skipOnScmChange: false, skipOnUpstreamChange: false, suppressionFile: '', zipExtensions: ''
+                dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '', unHealthy: ''
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                input "Je gaat deployen, is dat OK?"
+                sh "mvn tomcat7:redeploy -Dtomcat.username=admin -Dtomcat.password=password"
+            }
+        }
+    }
+}
