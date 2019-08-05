@@ -20,6 +20,8 @@ pipeline {
           nexusArtifactUploader artifacts: [[artifactId: 'demo', classifier: '', file: '/Users/Shared/Jenkins/Home/workspace/demo/target/demo-1.0.0-SNAPSHOT.war', type: 'war']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0.0-SNAPSHOT'
         }
      }
+
+
     stage("Quality checks") {
         parallel {
              stage('SonarQube') {
@@ -42,6 +44,14 @@ pipeline {
                    }
              }
         }
+    }
+
+    stage('Performance analysis') {
+               steps {
+                   sh 'mvn gatling:test -Dgatling.simulationClass=gatling.BasicSimulation'
+                   // Archive results for Jenkins visualization
+                   gatlingArchive()
+               }
     }
 
     stage('Deploy') {
