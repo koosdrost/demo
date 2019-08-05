@@ -48,7 +48,7 @@ pipeline {
 
     stage('Performance analysis') {
                steps {
-                   sh 'mvn gatling:test -Dgatling.simulationClass=gatling.BasicSimulation'
+                   sh 'mvn gatling:test'
                    // Archive results for Jenkins visualization
                    gatlingArchive()
                }
